@@ -9,8 +9,3 @@
 # نادیده‌گرفتن فایل‌های CMake برای تحلیل زبان
 CMakeLists.txt linguist-vendored
 *.cmake linguist-vendored
-
-# نادیده‌گرفتن پوشه‌هایی مانند "vendor" یا "third_party"
-/vendor/** linguist-vendored
-/third_party/** linguist-vendored
-/build/** linguist-vendored
