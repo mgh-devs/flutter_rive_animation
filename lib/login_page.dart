@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final usernameCtl = TextEditingController();
   final passwordCtl = TextEditingController();
   bool isShowPass = false;
+  bool isLoading=false;
 
   @override
   void initState() {
@@ -74,16 +75,25 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() {
-    isHandsUp?.change(false);
-    isChecking?.change(false);
 
-    if (usernameCtl.text == "are.zdevs" && passwordCtl.text == "2004") {
-      trigSuccess!.fire();
-    } else {
-      trigFail!.fire();
-    }
-    usernameCtl.clear();
-    passwordCtl.clear();
+    setState(() {
+      isLoading=true;
+      isHandsUp?.change(false);
+      isChecking?.change(false);
+    });
+
+    Future.delayed(Duration(milliseconds: 1600),(){
+      isLoading=false;
+      setState(() {
+        if (usernameCtl.text == "are.zdevs" && passwordCtl.text == "2004") {
+          trigSuccess?.fire();
+        } else {
+          trigFail?.fire();
+        }
+        usernameCtl.clear();
+        passwordCtl.clear();
+      });
+    });
   }
 
   @override
@@ -144,9 +154,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               MaterialButton(
-                onPressed: () => login(),
+                onPressed: () =>!isLoading? login():null,
                 color: const Color(0xff1e81b0),
-                child: const Text(
+                child:isLoading?SizedBox(width:25,height: 25,child: CircularProgressIndicator(color: Colors.white,)): const Text(
                   'Login',
                   style: TextStyle(
                     color: Colors.white,
